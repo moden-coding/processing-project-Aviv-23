@@ -4,10 +4,10 @@ public class App extends PApplet {
 
     float rectY1 = 200;
     float rectY2 = 200;
-    int paddlespeed = 10;
+    int paddlespeed = 3;
     int ballX = 300;
     int ballY = 200;
-    int xspeed = 5;
+    double xspeed = 5;
     int yspeed = 2;
     int paddle1X = 20;
     int paddle2X = 560;
@@ -58,26 +58,27 @@ public class App extends PApplet {
             text(score2, 550, 50);
             ballX += xspeed;
             ballY += yspeed;
-            if (UP2 == true) {
+            if (UP2 == true&& rectY2>= 0) {
                 rectY2 -= paddlespeed;
+                println("hello");
             }
-            if (UP1 == true) {
+            if (UP1 == true&& rectY1 >= 0) {
                 rectY1 -= paddlespeed;
             }
-            if (DOWN2 == true) {
+            if (DOWN2 == true&& rectY2 <= 300) {
                 rectY2 += paddlespeed;
             }
-            if (DOWN1 == true) {
+            if (DOWN1 == true&& rectY1 <= 300) {
                 rectY1 += paddlespeed;
             }
             int currentColor = get((int) ballX, (int) (ballY));
             currentColor = get((int) (ballX - 25 / 2), (int) ballY);
             if (red(currentColor) == 0 && green(currentColor) == 150 && blue(currentColor) == 255) {
-                xspeed = -xspeed;
+                xspeed = -1.05*xspeed;
             }
             currentColor = get((int) (ballX + 25 / 2), (int) ballY);
             if (red(currentColor) == 0 && green(currentColor) == 150 && blue(currentColor) == 255) {
-                xspeed = -xspeed;
+                xspeed = -1.05*xspeed;
             }
 
             if (ballY >= Y - 12.5 || ballY <= 12.5) {
@@ -121,15 +122,16 @@ public class App extends PApplet {
 
     public void keyPressed() {
 
-        if (keyCode == UP && rectY2 > 0) {
+        if (keyCode == UP) {
             UP2 = true;
-        } else if (keyCode == DOWN && rectY2 < 300) {
+           
+        } else if (keyCode == DOWN) {
             DOWN2 = true;
         }
 
-        if (key == 'w' && rectY1 > 0) {
+        if (key == 'w') {
             UP1 = true;
-        } else if (key == 's' && rectY2 < 300) {
+        } else if (key == 's') {
             DOWN1 = true;
         }
         if (key == ' ' && scene == 1) {
