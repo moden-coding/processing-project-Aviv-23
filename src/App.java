@@ -2,9 +2,9 @@ import processing.core.*;
 
 public class App extends PApplet {
 
-    float rectY1 = 200;
-    float rectY2 = 200;
-    int paddlespeed = 3;
+    float leftY = 200;
+    float rightY = 200;
+    int paddlespeed = 4;
     int ballX = 300;
     int ballY = 200;
     double xspeed = 5;
@@ -16,17 +16,20 @@ public class App extends PApplet {
     int score1 = 0;
     int score2 = 0;
     int scene = 1;
-    boolean UP1, UP2, DOWN1, DOWN2;
+    boolean UPleft, UPright, DOWNleft, DOWNright;
+    float R=0;
+    float G=0;
+    float B=0;
 
     public static void main(String[] args) {
         PApplet.main("App");
     }
 
     public void setup() {
-        UP1 = false;
-        UP2 = false;
-        DOWN1 = false;
-        DOWN2 = false;
+        UPleft = false;
+        UPright = false;
+        DOWNleft = false;
+        DOWNright = false;
 
     }
 
@@ -47,9 +50,9 @@ public class App extends PApplet {
             background(255);
             fill(0, 150, 255);
             noStroke();
-            rect(paddle1X, rectY1, 20, 100);
-            rect(paddle2X, rectY2, 20, 100);
-            fill(0);
+            rect(paddle1X, leftY, 20, 100);
+            rect(paddle2X, rightY, 20, 100);
+            fill(R,G,B);
             circle(ballX, ballY, 25);
             fill(0);
             textSize(32);
@@ -58,27 +61,32 @@ public class App extends PApplet {
             text(score2, 550, 50);
             ballX += xspeed;
             ballY += yspeed;
-            if (UP2 == true&& rectY2>= 0) {
-                rectY2 -= paddlespeed;
-                println("hello");
+            if (UPright == true&& rightY>= 0) {
+                rightY -= paddlespeed;
             }
-            if (UP1 == true&& rectY1 >= 0) {
-                rectY1 -= paddlespeed;
+            if (UPleft == true&& leftY >= 0) {
+                leftY -= paddlespeed;
             }
-            if (DOWN2 == true&& rectY2 <= 300) {
-                rectY2 += paddlespeed;
+            if (DOWNright == true&& rightY <= 300) {
+                rightY += paddlespeed;
             }
-            if (DOWN1 == true&& rectY1 <= 300) {
-                rectY1 += paddlespeed;
+            if (DOWNleft == true&& leftY <= 300) {
+                leftY += paddlespeed;
             }
             int currentColor = get((int) ballX, (int) (ballY));
             currentColor = get((int) (ballX - 25 / 2), (int) ballY);
             if (red(currentColor) == 0 && green(currentColor) == 150 && blue(currentColor) == 255) {
-                xspeed = -1.05*xspeed;
+                xspeed = -1.02*xspeed;
+                R=random(0,255);
+                G=random(0,255);
+                B=random(0,255);
             }
             currentColor = get((int) (ballX + 25 / 2), (int) ballY);
             if (red(currentColor) == 0 && green(currentColor) == 150 && blue(currentColor) == 255) {
-                xspeed = -1.05*xspeed;
+                xspeed = -1.02*xspeed;
+                R=random(0,255);
+                G=random(0,255);
+                B=random(0,255);
             }
 
             if (ballY >= Y - 12.5 || ballY <= 12.5) {
@@ -89,11 +97,13 @@ public class App extends PApplet {
             score2++;
             ballX = 300;
             ballY = 200;
+            xspeed = 5;
         }
         if (ballX > 600) {
             score1++;
             ballX = 300;
             ballY = 200;
+            xspeed = 5;
         }
         if (score1 == 11 || score2 == 11) {
             scene++;
@@ -106,7 +116,7 @@ public class App extends PApplet {
             textSize(32);
             textAlign(CENTER);
             text("Left Player Victory", 300, 100);
-            text("Press r to play again", 300, 300);
+            text("Press 'r' to play again", 300, 300);
         }
         if (scene == 3 && score1 < score2) {
             score1 = 0;
@@ -115,7 +125,7 @@ public class App extends PApplet {
             textSize(32);
             textAlign(CENTER);
             text("Right Player Victory", 300, 100);
-            text("Press r to play again", 300, 300);
+            text("Press 'r' to play again", 300, 300);
         }
 
     }
@@ -123,16 +133,16 @@ public class App extends PApplet {
     public void keyPressed() {
 
         if (keyCode == UP) {
-            UP2 = true;
+            UPright = true;
            
         } else if (keyCode == DOWN) {
-            DOWN2 = true;
+            DOWNright = true;
         }
 
         if (key == 'w') {
-            UP1 = true;
+            UPleft = true;
         } else if (key == 's') {
-            DOWN1 = true;
+            DOWNleft = true;
         }
         if (key == ' ' && scene == 1) {
             scene++;
@@ -142,16 +152,16 @@ public class App extends PApplet {
         }
     }
     public void keyReleased(){
-           if (keyCode == UP && rectY2 > 0) {
-            UP2 = false;
-        } else if (keyCode == DOWN && rectY2 < 300) {
-            DOWN2 = false;
+           if (keyCode == UP ) {
+            UPright = false;
+        } else if (keyCode == DOWN ) {
+            DOWNright = false;
         }
 
-        if (key == 'w' && rectY1 > 0) {
-            UP1 = false;
-        } else if (key == 's' && rectY2 < 300) {
-            DOWN1 = false;
+        if (key == 'w' ) {
+            UPleft = false;
+        } else if (key == 's') {
+            DOWNleft = false;
         }
     }
 }
