@@ -23,7 +23,7 @@ public class App extends PApplet {
     float r=0;
     float g=100;
     float b=200; //paddle color for detecting paddles
-
+    
     public static void main(String[] args) {
         PApplet.main("App");
     }
@@ -48,6 +48,7 @@ public class App extends PApplet {
             textAlign(CENTER);
             text("Left Player Use w&s keys to move paddle", 300, 100);
             text("Right Player Use UP&DOWN keys to move paddle", 300, 200);
+            text("press 'p' to pause", 300, 300);
 
         } else if (scene == 2) {
             background(255);
@@ -80,7 +81,7 @@ public class App extends PApplet {
             currentColor = get((int) (ballX - 25 / 2), (int) ballY);
             if (red(currentColor) == r && green(currentColor) == g && blue(currentColor) == b) { //sensing paddle based off color
                 xspeed = -1.05*xspeed;//bouncing left and right and speeding up by 5%
-                R=random(0,255);//chsnging ball color
+                R=random(0,255);//changing ball color
                 G=random(0,255);
                 B=random(0,255);
             }
@@ -130,8 +131,16 @@ public class App extends PApplet {
             text("Right Player Victory", 300, 100);
             text("Press 'r' to play again", 300, 300);
         }
+        if(scene==4){
+             background(255);
+            textSize(32);
+            textAlign(CENTER);
+            text("Press 'p' to unpause", 300, 100);
+        }
+        }
 
-    }
+    
+
 
     public void keyPressed() {
 
@@ -166,5 +175,11 @@ public class App extends PApplet {
         } else if (key == 's') {
             DOWNleft = false;
         }
+         if (key == 'p' && scene==2 ) {
+            scene=4;
+        }
+         else if (key == 'p' && scene==4 ) {
+            scene=2;
     }
+}
 }
