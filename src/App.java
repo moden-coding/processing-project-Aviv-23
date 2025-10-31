@@ -23,7 +23,7 @@ public class App extends PApplet {
     float r=0;
     float g=100;
     float b=200; //paddle color for detecting paddles
-    
+    int scorefinale=11;
     public static void main(String[] args) {
         PApplet.main("App");
     }
@@ -49,8 +49,15 @@ public class App extends PApplet {
             text("Left Player Use w&s keys to move paddle", 300, 100);
             text("Right Player Use UP&DOWN keys to move paddle", 300, 200);
             text("press 'p' to pause", 300, 300);
-
-        } else if (scene == 2) {
+        }
+            else if(scene==2){
+             background(255);//white backgorund
+            fill(0);
+            textSize(25);
+            textAlign(CENTER);
+            text("Select the score you would like to play until", 300, 100);
+            text(scorefinale, 300, 200);
+        }else if (scene == 3) {
             background(255);
             fill(r, g, b);
             noStroke();
@@ -109,11 +116,11 @@ public class App extends PApplet {
             ballY = 200;
             xspeed = 5;
         }
-        if (score1 == 11 || score2 == 11) {
+        if (score1 == scorefinale || score2 == scorefinale) {
             scene++;//when a player reaches 11 changes scene
 
         }
-        if (scene == 3 && score1 > score2) {//declaring winner based off score
+        if (scene == 4 && score1 > score2) {//declaring winner based off score
             score1 = 0;
             score2 = 0;
             background(255);
@@ -122,7 +129,7 @@ public class App extends PApplet {
             text("Left Player Victory", 300, 100);
             text("Press 'r' to play again", 300, 300);
         }
-        if (scene == 3 && score1 < score2) {
+        if (scene == 4 && score1 < score2) {
             score1 = 0;
             score2 = 0;
             background(255);
@@ -131,7 +138,7 @@ public class App extends PApplet {
             text("Right Player Victory", 300, 100);
             text("Press 'r' to play again", 300, 300);
         }
-        if(scene==4){
+        if(scene==5){
              background(255);
             textSize(32);
             textAlign(CENTER);
@@ -144,24 +151,32 @@ public class App extends PApplet {
 
     public void keyPressed() {
 
-        if (keyCode == UP) {//smooth movement bolean true when key is pressed
+        if (keyCode == UP&&scene==3) {//smooth movement bolean true when key is pressed
             UPright = true;
-           
-        } else if (keyCode == DOWN) {
+        }else if(keyCode==UP&&scene==2){
+            scorefinale++;
+        } else if (keyCode == DOWN&&scene==3) {
             DOWNright = true;
+        }else if(keyCode==DOWN&&scene==2&&scorefinale>1){
+            scorefinale=scorefinale-1;
         }
-
         if (key == 'w') {
             UPleft = true;
         } else if (key == 's') {
             DOWNleft = true;
         }
-        if (key == ' ' && scene == 1) {
+        if (key == ' ' && scene <= 2) {
             scene++;
         }
         if (key == 'r' && scene >= 2) {
             scene = 1;
         }
+          if (key == 'p' && scene==3 ) {
+            scene=5;
+        }
+         else if (key == 'p' && scene==5 ) {
+            scene=3;
+    }
     }
     public void keyReleased(){
            if (keyCode == UP ) {//smooth movement bolean is false when key released
@@ -175,11 +190,5 @@ public class App extends PApplet {
         } else if (key == 's') {
             DOWNleft = false;
         }
-         if (key == 'p' && scene==2 ) {
-            scene=4;
-        }
-         else if (key == 'p' && scene==4 ) {
-            scene=2;
-    }
 }
 }
